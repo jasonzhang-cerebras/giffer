@@ -1,11 +1,11 @@
 import type { Argv } from "yargs"
-import { UI } from "../ui"
+import { UI } from "./ui"
 import { cmd } from "./cmd"
-import { Giffer } from "../../giffer/giffer"
+import { Giffer } from "../giffer/giffer"
 import * as prompts from "@clack/prompts"
 
 export const GifferCommand = cmd({
-  command: "giffer <description>",
+  command: "$0 <description>",
   describe: "generate a GIF from a description",
   builder: (yargs: Argv) => {
     return yargs

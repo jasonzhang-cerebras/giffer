@@ -1,17 +1,72 @@
-# Giffer - GIF Generator
+# Giffer - Multi-Source GIF Generator
 
-Generate GIFs from text descriptions without using AI models.
+Generate GIFs from text descriptions without using AI models or API keys.
 
 ## Features
 
-- **Keyword Extraction**: Automatically extracts relevant keywords from descriptions
+- **Multiple Image Sources**: 8 different approaches without API keys
+- **Advanced NLP**: Keyword extraction with stemming, synonyms, and semantic expansion
 - **Multi-language Support**: Supports multiple languages with automatic translation
-- **Image Search**: Searches for relevant images using Unsplash API
-- **GIF Generation**: Creates animated GIFs from found images
+- **Interactive Selection**: Choose your favorite GIF from multiple options
+- **No API Keys Required**: All sources work without authentication
 
-## Installation
+## Image Sources
 
-The giffer command is included in the opencode CLI.
+### 1. Lorem Picsum (`lorem-picsum`)
+
+- Real photography from Lorem Picsum
+- Uses keywords as seeds for consistent results
+- High-quality, professional photos
+- **Best for**: Realistic photography style
+
+### 2. Placeholder (`placeholder`)
+
+- Placeholder graphics with keyword text overlays
+- Customizable colors and gradients
+- Clean, modern design
+- **Best for**: Wireframes, prototypes, showing keywords
+
+### 3. Emoji (`emoji`)
+
+- Emoji-based graphics with keyword representations
+- Fun and visual approach
+- Maps keywords to relevant emojis
+- **Best for**: Playful, simple graphics
+
+### 4. Canvas (`canvas`)
+
+- Programmatic graphics with shapes and gradients
+- Color palettes based on keywords
+- SVG-based, scalable
+- **Best for**: Custom graphics, artistic style
+
+### 5. Pattern (`pattern`)
+
+- Geometric patterns (stripes, dots, grids, waves, triangles)
+- Color palettes based on keywords
+- Multiple pattern variations
+- **Best for**: Textured backgrounds, decorative graphics
+
+### 6. Abstract Art (`abstract-art`)
+
+- Abstract shapes and compositions
+- Multiple art styles (geometric, organic, minimal, chaotic)
+- Color palettes based on keywords
+- **Best for**: Artistic, creative graphics
+
+### 7. Gradient (`gradient`)
+
+- Beautiful color gradients
+- Multiple gradient types (linear, radial, conic)
+- Color schemes based on keywords
+- **Best for**: Smooth, modern backgrounds
+
+### 8. Icon (`icon`)
+
+- Simple icon-like graphics
+- Maps keywords to relevant icons
+- Multiple icon styles (simple, framed, patterned, multiple)
+- **Best for**: Symbolic representations, icons
 
 ## Usage
 
@@ -19,107 +74,140 @@ The giffer command is included in the opencode CLI.
 opencode giffer <description> [options]
 ```
 
-### Arguments
-
-- `description`: Text description of the GIF you want to generate
-
 ### Options
 
-- `-o, --output <path>`: Output file path (default: `giffer-{timestamp}.gif`)
-- `-f, --frames <number>`: Number of frames in the GIF (default: 5)
-- `-d, --duration <number>`: Duration per frame in milliseconds (default: 500)
-- `-l, --language <code>`: Language of the description (auto-detect if not specified)
+- `-s, --source <name>`: Image source to use (lorem-picsum, placeholder, emoji, canvas, pattern, abstract-art, gradient, icon)
+- `--all`: Generate GIFs from all sources (default: true)
+- `-i, --interactive`: Interactive mode to select from generated GIFs
+- `-o, --output <path>`: Output file path
+- `-f, --frames <number>`: Number of frames (default: 5)
+- `-d, --duration <number>`: Duration per frame in ms (default: 500)
+- `-l, --language <code>`: Language code (auto-detect if not specified)
 - `--width <number>`: GIF width in pixels (default: 400)
 - `--height <number>`: GIF height in pixels (default: 300)
 
 ### Examples
 
-Generate a GIF from a simple description:
+Generate from all sources (default):
 
 ```bash
-opencode giffer "a beautiful sunset over the ocean"
+opencode giffer "a beautiful sunset"
 ```
 
-Generate a GIF with custom settings:
+Use specific source:
 
 ```bash
-opencode giffer "cats playing in a garden" --frames 8 --duration 300 --width 500 --height 400
+opencode giffer "cats playing" --source emoji
 ```
 
-Generate a GIF from a non-English description:
+Interactive selection:
 
 ```bash
-opencode giffer "un gato durmiendo en el sofá" --language es
+opencode giffer "mountains with snow" --interactive
 ```
 
-Save to a specific file:
+Custom settings:
 
 ```bash
-opencode giffer "mountains with snow" --output my-gif.gif
+opencode giffer "ocean waves" --frames 8 --duration 300 --width 500
 ```
 
-## Setup
-
-### Unsplash API Key
-
-Giffer uses the Unsplash API to search for images. You need to set up an API key:
-
-1. Go to [Unsplash Developers](https://unsplash.com/developers)
-2. Create a new application
-3. Copy your Access Key
-4. Set the environment variable:
+Non-English description:
 
 ```bash
-export UNSPLASH_ACCESS_KEY=your_access_key_here
+opencode giffer "un gato durmiendo" --language es
 ```
 
-Or add it to your shell profile (`.bashrc`, `.zshrc`, etc.):
+Save to specific file:
 
 ```bash
-echo 'export UNSPLASH_ACCESS_KEY=your_access_key_here' >> ~/.bashrc
-source ~/.bashrc
+opencode giffer "sunset over ocean" --output sunset.gif
 ```
 
 ## How It Works
 
-1. **Keyword Extraction**: Extracts relevant keywords from your description
-2. **Language Detection**: Detects the language of your description
-3. **Translation**: Translates non-English descriptions to English for better image search
-4. **Image Search**: Searches Unsplash for relevant images based on keywords
-5. **GIF Generation**: Downloads and resizes images, then creates an animated GIF
+1. **Extract Keywords**: Extracts relevant keywords from your description using advanced NLP
+2. **Language Detection**: Detects language and translates to English if needed
+3. **NLP Processing**: Applies stemming, synonym expansion, and semantic categorization
+4. **Generate Images**: Creates images from selected source(s)
+5. **Create GIF**: Downloads and resizes images, then creates animated GIF
+6. **Selection**: In interactive mode, lets you choose your favorite
+
+## NLP Features
+
+### Stemming
+
+- Converts words to their root form: "cats" → "cat", "running" → "run"
+- Improves keyword matching across different word forms
+
+### Synonym Expansion
+
+- Expands keywords with related terms: "happy" → "joyful", "glad", "cheerful"
+- Increases the chance of finding relevant images
+
+### Semantic Categorization
+
+- Groups related concepts: "cat" → "kitten", "feline", "dog", "bird"
+- Provides broader context for image generation
+
+### Keyword Scoring
+
+- Prioritizes original keywords over expanded ones
+- Ensures the most relevant keywords are used
 
 ## Supported Languages
 
-- English (en)
-- Spanish (es)
-- French (fr)
-- German (de)
-- Chinese (zh)
-- Japanese (ja)
-- Korean (ko)
-- Russian (ru)
-- Arabic (ar)
+- English (en), Spanish (es), French (fr), German (de)
+- Chinese (zh), Japanese (ja), Korean (ko)
+- Russian (ru), Arabic (ar)
 
-## Limitations
+## Output Files
 
-- Requires an Unsplash API key (free tier available)
-- Image quality depends on Unsplash search results
-- Maximum 10 images per search (configurable)
-- GIF size limited by available memory
+When generating from all sources, files are named:
+
+- `giffer-lorem-picsum-{timestamp}.gif`
+- `giffer-placeholder-{timestamp}.gif`
+- `giffer-emoji-{timestamp}.gif`
+- `giffer-canvas-{timestamp}.gif`
+- `giffer-pattern-{timestamp}.gif`
+- `giffer-abstract-art-{timestamp}.gif`
+- `giffer-gradient-{timestamp}.gif`
+- `giffer-icon-{timestamp}.gif`
 
 ## Troubleshooting
 
-### "UNSPLASH_ACCESS_KEY environment variable is required"
+**"Failed to download image"**
 
-Make sure you've set your Unsplash API key as described in the Setup section.
+- Check your internet connection
+- Some sources may be temporarily unavailable
 
-### "Failed to search images"
+**"No images to generate GIF"**
 
-Check your internet connection and verify your Unsplash API key is valid.
+- Try different keywords
+- Some sources may not have matching content
 
-### "No images to generate GIF"
+**Interactive mode not working**
 
-The search didn't return any results. Try different keywords or a more specific description.
+- Ensure you're running in a terminal that supports interactive prompts
+- Use `--interactive` flag explicitly
+
+**Keywords not matching expected content**
+
+- Try using more specific keywords
+- The NLP system expands keywords, so try related terms
+- Check if the keyword is in the source's mapping
+
+## Tips
+
+- Use `--all` to see all options, then pick your favorite
+- Lorem Picsum gives the most realistic results
+- Placeholder is great for showing what keywords were used
+- Emoji is fun and playful
+- Canvas offers artistic, colorful graphics
+- Pattern provides textured backgrounds
+- Abstract Art creates unique compositions
+- Gradient gives smooth, modern looks
+- Icon is perfect for symbolic representations
 
 ## License
 

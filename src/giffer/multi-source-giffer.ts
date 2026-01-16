@@ -3,12 +3,25 @@ import { LoremPicsumSource } from "./sources/lorem-picsum"
 import { PlaceholderSource } from "./sources/placeholder"
 import { EmojiSource } from "./sources/emoji"
 import { CanvasSource } from "./sources/canvas"
+import { PatternSource } from "./sources/pattern"
+import { AbstractArtSource } from "./sources/abstract-art"
+import { GradientSource } from "./sources/gradient"
+import { IconSource } from "./sources/icon"
 
 export class MultiSourceGiffer {
   private sources: ImageSource[]
 
   constructor() {
-    this.sources = [new LoremPicsumSource(), new PlaceholderSource(), new EmojiSource(), new CanvasSource()]
+    this.sources = [
+      new LoremPicsumSource(),
+      new PlaceholderSource(),
+      new EmojiSource(),
+      new CanvasSource(),
+      new PatternSource(),
+      new AbstractArtSource(),
+      new GradientSource(),
+      new IconSource(),
+    ]
   }
 
   getSources(): ImageSource[] {
@@ -19,15 +32,13 @@ export class MultiSourceGiffer {
     return this.sources.find((s) => s.name === name)
   }
 
-  async generateFromAllSources(keywords: string[]): Promise<Map<string, string>> {
-    const results = new Map<string, string>()
+  async generateFromAllSources(keywords: string[], count: number): Promise<Map<string, string[]>> {
+    const results = new Map<string, string[]>()
 
     for (const source of this.sources) {
       try {
-        const images = await source.generateImages(keywords, 1)
-        if (images.length > 0 && images[0]) {
-          results.set(source.name, images[0])
-        }
+        const images = await source.generateImages(keywords, count)
+        results.set(source.name, images)
       } catch (error) {
         console.warn(`Failed to generate images from ${source.name}:`, error)
       }
@@ -36,15 +47,11 @@ export class MultiSourceGiffer {
     return results
   }
 
-  async generateFromSource(sourceName: string, keywords: string[]): Promise<string> {
+  async generateFromSource(sourceName: string, keywords: string[], count: number): Promise<string[]> {
     const source = this.getSourceByName(sourceName)
     if (!source) {
       throw new Error(`Unknown source: ${sourceName}`)
     }
-    const images = await source.generateImages(keywords, 1)
-    if (images.length === 0 || !images[0]) {
-      throw new Error(`No images generated from ${sourceName}`)
-    }
-    return images[0]
+    return source.generateImages(keywords, count)
   }
 }

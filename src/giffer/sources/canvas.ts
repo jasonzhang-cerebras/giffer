@@ -50,7 +50,7 @@ export class CanvasSource implements ImageSource {
     const color3 = palette[(index + 2) % palette.length]
 
     const shapes = [
-      this.generateGradientRect(width, height, color1, color2),
+      this.generateGradientRect(width, height, color1, color2, index),
       this.generateCircle(width, height, color3),
       this.generateText(width, height, keywords),
     ]
@@ -58,8 +58,8 @@ export class CanvasSource implements ImageSource {
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><defs><linearGradient id="grad${index}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#${color1};stop-opacity:1" /><stop offset="100%" style="stop-color:#${color2};stop-opacity:1" /></linearGradient></defs>${shapes.join("")}</svg>`
   }
 
-  private generateGradientRect(width: number, height: number, color1: string, color2: string): string {
-    return `<rect width="${width}" height="${height}" fill="url(#grad0)" />`
+  private generateGradientRect(width: number, height: number, color1: string, color2: string, index: number): string {
+    return `<rect width="${width}" height="${height}" fill="url(#grad${index})" />`
   }
 
   private generateCircle(width: number, height: number, color: string): string {

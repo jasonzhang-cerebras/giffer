@@ -127,11 +127,24 @@ export class EmojiSource implements ImageSource {
 
     for (let i = 0; i < count; i++) {
       const emoji = emojis[i % emojis.length]
-      const colors = ["FF6B6B", "4ECDC4", "45B7D1", "96CEB4", "FFEAA7", "DDA0DD"]
-      const bgColor = colors[i % colors.length]
-      images.push(`https://placehold.co/600x400/${bgColor}/FFFFFF?text=${emoji}`)
+      const svg = this.generateSVG(emoji, i)
+      const base64 = Buffer.from(svg).toString("base64")
+      images.push(`data:image/svg+xml;base64,${base64}`)
     }
 
     return images
+  }
+
+  private generateSVG(emoji: string, index: number): string {
+    const width = 600
+    const height = 400
+    const colors = ["FF6B6B", "4ECDC4", "45B7D1", "96CEB4", "FFEAA7", "DDA0DD"]
+    const bgColor = colors[index % colors.length]
+    const textColor = "FFFFFF"
+
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+      <rect width="${width}" height="${height}" fill="#${bgColor}" />
+      <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" dy=".3em">${emoji}</text>
+    </svg>`
   }
 }

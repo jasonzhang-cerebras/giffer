@@ -6,7 +6,6 @@ Generate pictures from text descriptions without using AI models or API keys.
 
 - **Multiple Image Sources**: 8 different approaches without API keys
 - **Advanced NLP**: Keyword extraction with stemming, synonyms, and semantic expansion
-- **Multi-language Support**: Supports multiple languages with automatic translation
 - **Interactive Selection**: Choose your favorite picture from multiple options
 - **No API Keys Required**: All sources work without authentication
 

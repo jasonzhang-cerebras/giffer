@@ -19,13 +19,15 @@ export class MultiSourceGiffer {
     return this.sources.find((s) => s.name === name)
   }
 
-  async generateFromAllSources(keywords: string[], count: number): Promise<Map<string, string[]>> {
-    const results = new Map<string, string[]>()
+  async generateFromAllSources(keywords: string[]): Promise<Map<string, string>> {
+    const results = new Map<string, string>()
 
     for (const source of this.sources) {
       try {
-        const images = await source.generateImages(keywords, count)
-        results.set(source.name, images)
+        const images = await source.generateImages(keywords, 1)
+        if (images.length > 0 && images[0]) {
+          results.set(source.name, images[0])
+        }
       } catch (error) {
         console.warn(`Failed to generate images from ${source.name}:`, error)
       }
@@ -34,11 +36,15 @@ export class MultiSourceGiffer {
     return results
   }
 
-  async generateFromSource(sourceName: string, keywords: string[], count: number): Promise<string[]> {
+  async generateFromSource(sourceName: string, keywords: string[]): Promise<string> {
     const source = this.getSourceByName(sourceName)
     if (!source) {
       throw new Error(`Unknown source: ${sourceName}`)
     }
-    return source.generateImages(keywords, count)
+    const images = await source.generateImages(keywords, 1)
+    if (images.length === 0 || !images[0]) {
+      throw new Error(`No images generated from ${sourceName}`)
+    }
+    return images[0]
   }
 }

@@ -1,12 +1,12 @@
-# Giffer - Multi-Source GIF Generator
+# Giffer - Multi-Source Picture Generator
 
-Generate GIFs from text descriptions without using AI models or API keys.
+Generate pictures from text descriptions without using AI models or API keys.
 
 ## Features
 
 - **Multiple Image Sources**: 4 different approaches without API keys
 - **Keyword Extraction**: Automatically extracts relevant keywords from descriptions
-- **Interactive Selection**: Choose your favorite GIF from multiple options
+- **Interactive Selection**: Choose your favorite picture from multiple options
 - **No API Keys Required**: All sources work without authentication
 
 ## Image Sources
@@ -44,7 +44,7 @@ bun test
 ## Quick Start
 
 ```bash
-# Generate GIFs from all sources (default)
+# Generate pictures from all sources (default)
 bun run dev "a beautiful sunset over the ocean"
 
 # Use a specific source
@@ -63,13 +63,11 @@ giffer <description> [options]
 ### Options
 
 - `-s, --source <name>`: Image source to use (lorem-picsum, placeholder, emoji, canvas)
-- `--all`: Generate GIFs from all sources (default: true)
-- `-i, --interactive`: Interactive mode to select from generated GIFs
+- `--all`: Generate pictures from all sources (default: true)
+- `-i, --interactive`: Interactive mode to select from generated pictures
 - `-o, --output <path>`: Output file path
-- `-f, --frames <number>`: Number of frames (default: 5)
-- `-d, --duration <number>`: Duration per frame in ms (default: 500)
-- `--width <number>`: GIF width in pixels (default: 400)
-- `--height <number>`: GIF height in pixels (default: 300)
+- `--width <number>`: Picture width in pixels (default: 400)
+- `--height <number>`: Picture height in pixels (default: 300)
 
 ### Examples
 
@@ -84,20 +82,20 @@ giffer "cats playing" --source emoji
 giffer "mountains with snow" --interactive
 
 # Custom settings
-giffer "ocean waves" --frames 8 --duration 300 --width 500
+giffer "ocean waves" --width 500 --height 400
 
 # Save to specific file
-giffer "sunset over ocean" --output sunset.gif
+giffer "sunset over ocean" --output sunset.png
 ```
 
 ## Output Files
 
 When generating from all sources, files are named:
 
-- `giffer-lorem-picsum-{timestamp}.gif`
-- `giffer-placeholder-{timestamp}.gif`
-- `giffer-emoji-{timestamp}.gif`
-- `giffer-canvas-{timestamp}.gif`
+- `giffer-lorem-picsum-{timestamp}.png`
+- `giffer-placeholder-{timestamp}.png`
+- `giffer-emoji-{timestamp}.png`
+- `giffer-canvas-{timestamp}.png`
 
 ## Testing
 
@@ -119,7 +117,7 @@ bun test test/giffer.test.ts
 - Check your internet connection
 - Some sources may be temporarily unavailable
 
-**"No images to generate GIF"**
+**"No images generated"**
 
 - Try different keywords
 - Some sources may not have matching content

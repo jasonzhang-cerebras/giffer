@@ -6,11 +6,11 @@ import * as prompts from "@clack/prompts"
 
 export const GifferCommand = cmd({
   command: "$0 <description>",
-  describe: "generate a GIF from a description",
+  describe: "generate a picture from a description",
   builder: (yargs: Argv) => {
     return yargs
       .positional("description", {
-        describe: "description of the GIF to generate",
+        describe: "description of the picture to generate",
         type: "string",
       })
       .option("output", {
@@ -18,25 +18,13 @@ export const GifferCommand = cmd({
         describe: "output file path",
         type: "string",
       })
-      .option("frames", {
-        alias: ["f"],
-        describe: "number of frames in the GIF",
-        type: "number",
-        default: 5,
-      })
-      .option("duration", {
-        alias: ["d"],
-        describe: "duration per frame in milliseconds",
-        type: "number",
-        default: 500,
-      })
       .option("width", {
-        describe: "GIF width in pixels",
+        describe: "picture width in pixels",
         type: "number",
         default: 400,
       })
       .option("height", {
-        describe: "GIF height in pixels",
+        describe: "picture height in pixels",
         type: "number",
         default: 300,
       })
@@ -46,28 +34,25 @@ export const GifferCommand = cmd({
         type: "string",
       })
       .option("all", {
-        describe: "generate GIFs from all sources",
+        describe: "generate pictures from all sources",
         type: "boolean",
         default: true,
       })
       .option("interactive", {
         alias: ["i"],
-        describe: "interactive mode to select from generated GIFs",
+        describe: "interactive mode to select from generated pictures",
         type: "boolean",
         default: false,
       })
   },
   handler: async (args) => {
     try {
-      UI.println(UI.Style.TEXT_INFO_BOLD + "🎬 Giffer - Multi-Source GIF Generator")
+      UI.println(UI.Style.TEXT_INFO_BOLD + "🎨 Giffer - Multi-Source Picture Generator")
       UI.println()
 
       const giffer = new Giffer({
-        frames: args.frames,
-        duration: args.duration,
         width: args.width,
         height: args.height,
-        language: args.language,
       })
 
       UI.println(UI.Style.TEXT_DIM + "Extracting keywords from description...")
@@ -79,18 +64,18 @@ export const GifferCommand = cmd({
       const useAllSources = args.all && !args.source
 
       if (useAllSources) {
-        UI.println(UI.Style.TEXT_DIM + "Generating GIFs from all sources...")
+        UI.println(UI.Style.TEXT_DIM + "Generating pictures from all sources...")
         UI.println()
 
         const allImages = await giffer.generateFromAllSources(keywords)
-        const generatedGIFs: Array<{ source: string; path: string }> = []
+        const generatedPictures: Array<{ source: string; path: string }> = []
 
-        for (const [sourceName, images] of allImages.entries()) {
-          if (images.length === 0) continue
+        for (const [sourceName, imageUrl] of allImages.entries()) {
+          if (!imageUrl) continue
 
-          const outputPath = `giffer-${sourceName}-${Date.now()}.gif`
-          await giffer.generateGIF(images, outputPath)
-          generatedGIFs.push({ source: sourceName, path: outputPath })
+          const outputPath = `giffer-${sourceName}-${Date.now()}.png`
+          await giffer.generateImage(imageUrl, outputPath)
+          generatedPictures.push({ source: sourceName, path: outputPath })
 
           const source = sources.find((s) => s.name === sourceName)
           UI.println(UI.Style.TEXT_SUCCESS + `✓ Generated ${sourceName}: ${outputPath}`)
@@ -98,25 +83,25 @@ export const GifferCommand = cmd({
           UI.println()
         }
 
-        if (args.interactive && generatedGIFs.length > 1) {
-          UI.println(UI.Style.TEXT_INFO_BOLD + "Select your favorite GIF:")
+        if (args.interactive && generatedPictures.length > 1) {
+          UI.println(UI.Style.TEXT_INFO_BOLD + "Select your favorite picture:")
           UI.println()
 
           const selected = await prompts.select({
-            message: "Which GIF do you want to keep?",
-            options: generatedGIFs.map((gif) => ({
-              label: `${gif.source} - ${gif.path}`,
-              value: gif.path,
+            message: "Which picture do you want to keep?",
+            options: generatedPictures.map((pic) => ({
+              label: `${pic.source} - ${pic.path}`,
+              value: pic.path,
             })),
           })
 
           if (prompts.isCancel(selected)) {
-            UI.println(UI.Style.TEXT_DIM + "Keeping all generated GIFs")
+            UI.println(UI.Style.TEXT_DIM + "Keeping all generated pictures")
           } else {
-            for (const gif of generatedGIFs) {
-              if (gif.path !== selected) {
-                await Bun.file(gif.path).delete()
-                UI.println(UI.Style.TEXT_DIM + `Deleted: ${gif.path}`)
+            for (const pic of generatedPictures) {
+              if (pic.path !== selected) {
+                await Bun.file(pic.path).delete()
+                UI.println(UI.Style.TEXT_DIM + `Deleted: ${pic.path}`)
               }
             }
             UI.println(UI.Style.TEXT_SUCCESS + `✓ Kept: ${selected}`)
@@ -124,23 +109,23 @@ export const GifferCommand = cmd({
         }
       } else if (args.source) {
         const sourceName = args.source
-        UI.println(UI.Style.TEXT_DIM + `Generating GIF from ${sourceName}...`)
+        UI.println(UI.Style.TEXT_DIM + `Generating picture from ${sourceName}...`)
         UI.println()
 
-        const images = await giffer.generateFromSource(sourceName, keywords)
-        const outputPath = args.output ?? `giffer-${sourceName}-${Date.now()}.gif`
-        await giffer.generateGIF(images, outputPath)
+        const imageUrl = await giffer.generateFromSource(sourceName, keywords)
+        const outputPath = args.output ?? `giffer-${sourceName}-${Date.now()}.png`
+        await giffer.generateImage(imageUrl, outputPath)
 
         const source = sources.find((s) => s.name === sourceName)
         UI.println(UI.Style.TEXT_SUCCESS + `✓ Generated: ${outputPath}`)
         UI.println(UI.Style.TEXT_DIM + `  ${source?.description}`)
       } else {
-        UI.println(UI.Style.TEXT_DIM + "Generating GIF from default source...")
+        UI.println(UI.Style.TEXT_DIM + "Generating picture from default source...")
         UI.println()
 
-        const images = await giffer.generateFromSource("lorem-picsum", keywords)
-        const outputPath = args.output ?? `giffer-${Date.now()}.gif`
-        await giffer.generateGIF(images, outputPath)
+        const imageUrl = await giffer.generateFromSource("lorem-picsum", keywords)
+        const outputPath = args.output ?? `giffer-${Date.now()}.png`
+        await giffer.generateImage(imageUrl, outputPath)
 
         UI.println(UI.Style.TEXT_SUCCESS + `✓ Generated: ${outputPath}`)
       }

@@ -6,8 +6,6 @@ describe("Giffer", () => {
 
   beforeAll(() => {
     giffer = new Giffer({
-      frames: 3,
-      duration: 500,
       width: 400,
       height: 300,
     })
@@ -31,11 +29,11 @@ describe("Giffer", () => {
       expect(sources.map((s) => s.name)).toEqual(["lorem-picsum", "placeholder", "emoji", "canvas"])
     })
 
-    it("should generate images from specific source", async () => {
+    it("should generate image from specific source", async () => {
       const keywords = ["sunset", "ocean"]
-      const images = await giffer.generateFromSource("placeholder", keywords)
-      expect(images).toBeArray()
-      expect(images.length).toBeGreaterThan(0)
+      const imageUrl = await giffer.generateFromSource("placeholder", keywords)
+      expect(imageUrl).toBeString()
+      expect(imageUrl.length).toBeGreaterThan(0)
     })
   })
 })

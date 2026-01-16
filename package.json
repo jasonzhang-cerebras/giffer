@@ -1,7 +1,7 @@
 {
   "name": "giffer",
   "version": "1.0.0",
-  "description": "Multi-source GIF generator without AI models or API keys",
+  "description": "Multi-source picture generator without AI models or API keys",
   "type": "module",
   "bin": {
     "giffer": "./bin/giffer"
@@ -28,9 +28,9 @@
     "bun": ">=1.0.0"
   },
   "keywords": [
-    "gif",
-    "generator",
+    "picture",
     "image",
+    "generator",
     "cli",
     "no-api",
     "no-ai"

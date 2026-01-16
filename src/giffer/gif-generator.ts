@@ -46,14 +46,10 @@ export class GIFGenerator {
     }
 
     const gif = await sharp(images[0], { animated: true })
-      .composite(
-        images.slice(1).map((img) => ({
-          input: img,
-        })),
-      )
       .gif({
         delay: this.config.duration,
         loop: 0,
+        page: images.map(() => ({ delay: this.config.duration })),
       })
       .toBuffer()
 

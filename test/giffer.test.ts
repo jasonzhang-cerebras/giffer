@@ -21,12 +21,6 @@ describe("Giffer", () => {
       expect(keywords).toContain("beautiful")
       expect(keywords).toContain("sunset")
     })
-
-    it("should handle non-English descriptions", async () => {
-      const keywords = await giffer.extractKeywords("un gato durmiendo")
-      expect(keywords).toBeArray()
-      expect(keywords.length).toBeGreaterThan(0)
-    })
   })
 
   describe("source management", () => {

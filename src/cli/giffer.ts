@@ -30,11 +30,6 @@ export const GifferCommand = cmd({
         type: "number",
         default: 500,
       })
-      .option("language", {
-        alias: ["l"],
-        describe: "language of the description (auto-detect if not specified)",
-        type: "string",
-      })
       .option("width", {
         describe: "GIF width in pixels",
         type: "number",

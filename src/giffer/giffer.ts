@@ -1,6 +1,5 @@
 import { KeywordExtractor } from "./keyword-extractor"
 import { GIFGenerator } from "./gif-generator"
-import { Translator } from "./translator"
 import { MultiSourceGiffer } from "./multi-source-giffer"
 
 export interface GifferConfig {
@@ -8,30 +7,21 @@ export interface GifferConfig {
   duration: number
   width: number
   height: number
-  language?: string
 }
 
 export class Giffer {
   private keywordExtractor: KeywordExtractor
   private gifGenerator: GIFGenerator
-  private translator: Translator
   private multiSourceGiffer: MultiSourceGiffer
 
   constructor(config: GifferConfig) {
     this.keywordExtractor = new KeywordExtractor()
     this.gifGenerator = new GIFGenerator(config)
-    this.translator = new Translator()
     this.multiSourceGiffer = new MultiSourceGiffer()
   }
 
   async extractKeywords(description: string): Promise<string[]> {
-    let processedDescription = description
-
-    if (this.translator.detectLanguage(description) !== "en") {
-      processedDescription = await this.translator.translate(description, "en")
-    }
-
-    return this.keywordExtractor.extract(processedDescription)
+    return this.keywordExtractor.extract(description)
   }
 
   async generateGIF(imageUrls: string[], outputPath: string): Promise<void> {

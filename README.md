@@ -70,22 +70,6 @@ bun run dev "cats playing" --source placeholder
 bun run dev "mountains with snow" --interactive
 ```
 
-## Usage
-
-```bash
-giffer <description> [options]
-```
-
-### Options
-
-- `-s, --source <name>`: Image source to use (lorem-picsum, placeholder, emoji, canvas, pattern, abstract-art, gradient, icon)
-- `--all`: Generate pictures from all sources (default: true)
-- `-i, --interactive`: Interactive mode to select from generated pictures
-- `-o, --output <path>`: Output file path
-- `-l, --language <code>`: Language code (auto-detect if not specified)
-- `--width <number>`: Picture width in pixels (default: 400)
-- `--height <number>`: Picture height in pixels (default: 300)
-
 ## Output Files
 
 When generating from all sources, files are named:

@@ -1,0 +1,48 @@
+{
+  "name": "giffer",
+  "version": "1.0.0",
+  "description": "Multi-source GIF generator without AI models or API keys",
+  "type": "module",
+  "bin": {
+    "giffer": "./bin/giffer"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist --target bun",
+    "test": "bun test test/",
+    "test:watch": "bun test test/ --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5",
+    "yargs": "^18.0.0",
+    "@clack/prompts": "^1.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.33",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "gif",
+    "generator",
+    "image",
+    "cli",
+    "no-api",
+    "no-ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/giffer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/giffer/issues"
+  },
+  "homepage": "https://github.com/yourusername/giffer#readme"
+}

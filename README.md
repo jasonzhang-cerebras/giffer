@@ -87,25 +87,6 @@ giffer <description> [options]
 - `--width <number>`: Picture width in pixels (default: 400)
 - `--height <number>`: Picture height in pixels (default: 300)
 
-### Examples
-
-```bash
-# Generate from all sources (default)
-giffer "a beautiful sunset"
-
-# Use specific source
-giffer "cats playing" --source emoji
-
-# Interactive selection
-giffer "mountains with snow" --interactive
-
-# Custom settings
-giffer "ocean waves" --width 500 --height 400
-
-# Save to specific file
-giffer "sunset over ocean" --output sunset.png
-```
-
 ## Output Files
 
 When generating from all sources, files are named:

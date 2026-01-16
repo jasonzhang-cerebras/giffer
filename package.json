@@ -39,10 +39,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jasonzjc1995/giffer.git"
+    "url": "git+https://github.com/jasonzhang-cerebras/giffer.git"
   },
   "bugs": {
-    "url": "https://github.com/jasonzjc1995/giffer/issues"
+    "url": "https://github.com/jasonzhang-cerebras/giffer/issues"
   },
-  "homepage": "https://github.com/jasonzjc1995/giffer#readme"
+  "homepage": "https://github.com/jasonzhang-cerebras/giffer#readme"
 }
